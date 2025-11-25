@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8"/>
+        <title>🚀 服务已启动</title>
+        <style>
+            * {
+                margin: 0;
+                padding: 0;
+                box-sizing: border-box;
+            }
+            
+            body { 
+                font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif; 
+                background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+                min-height: 100vh;
+                padding: 20px;
+                line-height: 1.6;
+                color: #333;
+            }
+            
+            .container {
+                max-width: 900px;
+                margin: 0 auto;
+                background: rgba(255, 255, 255, 0.95);
+                border-radius: 20px;
+                box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+                backdrop-filter: blur(10px);
+                overflow: hidden;
+            }
+            
+            .header {
+                background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+                color: white;
+                padding: 40px;
+                text-align: center;
+            }
+            
+            .header h1 {
+                font-size: 2.5em;
+                margin-bottom: 10px;
+                font-weight: 300;
+            }
+            
+            .content {
+                padding: 40px;
+            }
+            
+            h2 {
+                color: #4a5568;
+                margin: 30px 0 20px 0;
+                font-size: 1.8em;
+                font-weight: 600;
+                position: relative;
+                padding-left: 20px;
+            }
+            
+            h2::before {
+                content: '';
+                position: absolute;
+                left: 0;
+                top: 50%;
+                transform: translateY(-50%);
+                width: 4px;
+                height: 30px;
+                background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+                border-radius: 2px;
+            }
+            
+            h3 {
+                color: #2d3748;
+                margin-bottom: 15px;
+                font-size: 1.4em;
+                font-weight: 600;
+            }
+            
+            h4 {
+                color: #4a5568;
+                margin-bottom: 15px;
+                font-size: 1.2em;
+                font-weight: 600;
+                display: flex;
+                align-items: center;
+                gap: 8px;
+            }
+            
+            .warning { 
+                background: linear-gradient(135deg, #fff5f5 0%, #fed7d7 100%);
+                border: 1px solid #feb2b2;
+                border-left: 5px solid #e53e3e;
+                border-radius: 12px; 
+                padding: 25px; 
+                margin: 25px 0;
+                box-shadow: 0 4px 12px rgba(229, 62, 62, 0.1);
+            }
+            
+            .warning h3 {
+                color: #c53030;
+                display: flex;
+                align-items: center;
+                gap: 10px;
+                margin-bottom: 15px;
+            }
+            
+            .warning p {
+                margin-bottom: 10px;
+                color: #742a2a;
+                line-height: 1.7;
+            }
+            
+            .method { 
+                background: linear-gradient(135deg, #f7fafc 0%, #edf2f7 100%);
+                border: 1px solid #e2e8f0;
+                border-radius: 12px; 
+                padding: 25px; 
+                margin: 20px 0;
+                box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+                transition: all 0.3s ease;
+                position: relative;
+                overflow: hidden;
+            }
+            
+            .method::before {
+                content: '';
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 3px;
+                background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            }
+            
+            .method:hover {
+                transform: translateY(-2px);
+                box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+            }
+            
+            .method h4 {
+                color: #2d3748;
+                display: flex;
+                align-items: center;
+                gap: 10px;
+            }
+            
+            .method-icon {
+                width: 24px;
+                height: 24px;
+                background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+                border-radius: 6px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                color: white;
+                font-weight: bold;
+                font-size: 12px;
+            }
+            
+            .step-list {
+                list-style: none;
+                padding: 0;
+            }
+            
+            .step-list li {
+                background: white;
+                margin: 10px 0;
+                padding: 15px 20px;
+                border-radius: 8px;
+                border-left: 4px solid #667eea;
+                box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+                transition: all 0.3s ease;
+            }
+            
+            .step-list li:hover {
+                transform: translateX(5px);
+                box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            }
+            
+            .token { 
+                background: linear-gradient(135deg, #e6fffa 0%, #b2f5ea 100%);
+                color: #234e52;
+                padding: 8px 12px; 
+                border-radius: 6px; 
+                font-family: 'SF Mono', Monaco, 'Cascadia Code', 'Roboto Mono', Consolas, 'Courier New', monospace;
+                font-size: 0.9em;
+                border: 1px solid #81e6d9;
+                display: inline-block;
+                margin: 2px;
+                box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+            }
+            
+            img { 
+                max-width: 100%; 
+                height: auto; 
+                border-radius: 12px;
+                margin: 15px 0;
+                box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+                transition: transform 0.3s ease;
+            }
+            
+            img:hover {
+                transform: scale(1.02);
+            }
+            
+            .client-grid {
+                display: grid;
+                grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+                gap: 15px;
+                margin: 20px 0;
+            }
+            
+            .client-card {
+                background: white;
+                padding: 20px;
+                border-radius: 12px;
+                text-align: center;
+                box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+                transition: all 0.3s ease;
+                border: 2px solid transparent;
+            }
+            
+            .client-card:hover {
+                transform: translateY(-5px);
+                box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+                border-color: #667eea;
+            }
+            
+            .client-card strong {
+                color: #4a5568;
+                font-size: 1.1em;
+            }
+            
+            .api-info {
+                background: linear-gradient(135deg, #f0fff4 0%, #c6f6d5 100%);
+                border: 1px solid #9ae6b4;
+                border-radius: 12px;
+                padding: 20px;
+                margin: 20px 0;
+                text-align: center;
+            }
+            
+            .api-info code {
+                background: rgba(255, 255, 255, 0.8);
+                padding: 8px 16px;
+                border-radius: 6px;
+                font-size: 1.1em;
+                color: #22543d;
+                border: 1px solid #9ae6b4;
+            }
+            
+            a {
+                color: #667eea;
+                text-decoration: none;
+                transition: color 0.3s ease;
+            }
+            
+            a:hover {
+                color: #764ba2;
+                text-decoration: underline;
+            }
+            
+            .highlight-box {
+                background: linear-gradient(135deg, #ebf8ff 0%, #bee3f8 100%);
+                border: 1px solid #90cdf4;
+                border-radius: 8px;
+                padding: 15px;
+                margin: 15px 0;
+            }
+            
+            @media (max-width: 768px) {
+                .container {
+                    margin: 10px;
+                    border-radius: 15px;
+                }
+                
+                .header {
+                    padding: 30px 20px;
+                }
+                
+                .header h1 {
+                    font-size: 2em;
+                }
+                
+                .content {
+                    padding: 30px 20px;
+                }
+                
+                .client-grid {
+                    grid-template-columns: 1fr;
+                }
+            }
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <div class="header">
+                <h1>🚀 kimi-free-api</h1>
+                <p>Kimi免费API代理服务</p>
+            </div>
+            
+            <div class="content">
+                <div class="warning">
+                    <h3>⚠️ 免责声明</h3>
+                    <p><strong>逆向API是不稳定的，建议使用官方API，付费使用，避免封禁的风险。</strong></p>
+                    <p><strong>本组织和个人不接受任何资金捐助和交易，此项目是纯粹研究交流学习性质！</strong></p>
+                    <p><strong>仅限自用，禁止对外提供服务或商用，避免对官方造成服务压力，否则风险自担！</strong></p>
+                    <p><strong>仅限自用，禁止对外提供服务或商用，避免对官方造成服务压力，否则风险自担！</strong></p>
+                    <p><strong>仅限自用，禁止对外提供服务或商用，避免对官方造成服务压力，否则风险自担！</strong></p>
+                </div>
+
+                <h2>📋 接入准备</h2>
+                
+                <div class="method">
+                    <h4>
+                        <div class="method-icon">1</div>
+                        从Kimi获取Token
+                    </h4>
+                    <ul class="step-list">
+                        <li>从 <a href="https://kimi.moonshot.cn/" target="_blank">Kimi</a> 登录</li>
+                        <li>进入Kimi随便发起一个对话</li>
+                        <li>F12打开开发者工具，从 Application > Cookies 中找到相关Token值</li>
+                        <li>这将作为Authorization的Bearer Token值：<span class="token">Authorization: Bearer TOKEN</span></li>
+                    </ul>
+                    <img src="https://cdn.jsdelivr.net/gh/xiaoY233/kimi-free-api@master/doc/example-0.png" alt="获取Token">
+                </div>
+
+                <div class="method">
+                    <h4>
+                        <div class="method-icon">⚡</div>
+                        多账号接入
+                    </h4>
+                    <div class="highlight-box">
+                        <p>你可以通过提供多个账号的Token，并使用 <span class="token">,</span> 拼接提供：</p>
+                        <p><span class="token">Authorization: Bearer TOKEN1,TOKEN2,TOKEN3</span></p>
+                        <p>每次请求服务会从中挑选一个。</p>
+                    </div>
+                </div>
+
+                <h2>🐳 推荐客户端</h2>
+                <div class="client-grid">
+                    <div class="client-card">
+                        <strong>💬 LobeChat</strong>
+                        <p>推荐的现代化聊天界面</p>
+                    </div>
+                    <div class="client-card">
+                        <strong>⚡ NextChat</strong>
+                        <p>简洁的多平台客户端</p>
+                    </div>
+                    <div class="client-card">
+                        <strong>🔧 Dify</strong>
+                        <p>AI应用开发平台</p>
+                    </div>
+                    <div class="client-card">
+                        <strong>💻 OpenAI SDK</strong>
+                        <p>直接编程接入</p>
+                    </div>
+                </div>
+                
+                <div class="api-info">
+                    <h3>🔗 支持的接口</h3>
+                    <p><code>/v1/chat/completions</code> <small>(与OpenAI兼容)</small></p>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>
