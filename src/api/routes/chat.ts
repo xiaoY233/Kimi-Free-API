@@ -18,8 +18,8 @@ export default {
                 .validate('body.messages', _.isArray)
                 .validate('headers.authorization', _.isString)
 
-            // 提取 token
-            const authHeader = request.headers.authorization;
+            // 提取 token (handle case insensitive)
+            const authHeader = request.headers.authorization || request.headers.Authorization || request.headers['authorization'];
             const token = authHeader.replace(/^Bearer\s+/i, '').trim();
 
             // 检测 token 类型

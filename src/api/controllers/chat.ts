@@ -364,17 +364,20 @@ async function createCompletion(model = MODEL_NAME, messages: any[], refreshToke
 
     // 伪装调用获取用户信息
     fakeRequest(refreshToken)
-      .catch(err => logger.error(err));
+      .catch(err => logger.warn('fakeRequest请求失败，继续主要流程:', err.message));
 
     // 消息预处理
     const sendMessages = messagesPrepare(messages, !!refConvId);
 
-    !segmentId && preN2s(model, sendMessages, refs, refreshToken, convId)
-      .catch(err => logger.error(err));
+    // 异步处理可选的API调用，添加错误处理避免影响主要流程
+    if (!segmentId) {
+      preN2s(model, sendMessages, refs, refreshToken, convId)
+        .catch(err => logger.warn('preN2s请求失败，继续主要流程:', err.message));
+    }
     getSuggestion(sendMessages[0].content, refreshToken)
-      .catch(err => logger.error(err));
+      .catch(err => logger.warn('getSuggestion请求失败，继续主要流程:', err.message));
     tokenSize(sendMessages[0].content, refs, refreshToken, convId)
-      .catch(err => logger.error(err));
+      .catch(err => logger.warn('tokenSize请求失败，继续主要流程:', err.message));
 
     const isMath = model.indexOf('math') != -1;
     const isSearchModel = model.indexOf('search') != -1;
@@ -495,12 +498,13 @@ async function createCompletionStream(model = MODEL_NAME, messages: any[], refre
 
     const sendMessages = messagesPrepare(messages, !!refConvId);
 
+    // 异步处理可选的API调用，添加错误处理避免影响主要流程
     preN2s(model, sendMessages, refs, refreshToken, convId)
-      .catch(err => logger.error(err));
+      .catch(err => logger.warn('preN2s请求失败，继续主要流程:', err.message));
     getSuggestion(sendMessages[0].content, refreshToken)
-      .catch(err => logger.error(err));
+      .catch(err => logger.warn('getSuggestion请求失败，继续主要流程:', err.message));
     tokenSize(sendMessages[0].content, refs, refreshToken, convId)
-      .catch(err => logger.error(err));
+      .catch(err => logger.warn('tokenSize请求失败，继续主要流程:', err.message));
 
     const isMath = model.indexOf('math') != -1;
     const isSearchModel = model.indexOf('search') != -1;

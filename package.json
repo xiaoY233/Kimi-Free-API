@@ -1,6 +1,6 @@
 {
   "name": "kimi-free-api-fix",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Kimi Free API Server",
   "main": "dist/index.js",
   "module": "dist/index.mjs",
@@ -42,7 +42,7 @@
   "devDependencies": {
     "@types/lodash": "^4.14.202",
     "@types/mime": "^3.0.4",
-    "tsup": "^8.0.2",
+    "tsup": "^8.5.1",
     "typescript": "^5.3.3"
   }
 }

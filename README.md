@@ -32,6 +32,10 @@
 
 ### 版本说明
 
+- v1.0.2 (2025-12-04)
+    - 修改默认首页样式，添加接入方式和示例代码
+    - 新增Gemini和Claude适配器
+
 - v1.0.1 (2025-11-28)
     - 新增 Connect RPC API 支持（TypeScript 实现）
     - 实现自动 Token 类型检测和 API 路由
@@ -57,6 +61,24 @@
 
 ## 效果示例
 
+### 服务默认首页
+
+服务启动后，默认首页添加了接入指南和接口说明，方便快速接入，不用来回切换找文档。
+
+![index.html](./doc/index.png)
+            
+### Gemini-cli接入
+
+版本添加了gemini-cli适配器，可以直接在gemini-cli中调用API。
+
+![gemini-cli](./doc/gemini-cli.png)
+
+### Claude-code接入
+
+版本添加了Claude-code适配器，可以直接在Claude-code中调用API。
+
+![claude-code](./doc/claude-code.png)
+
 ### 验明正身Demo
 
 ![验明正身](./doc/example-1.png)
@@ -79,13 +101,6 @@
 
 ![长文档解读](./doc/example-5.png)
 
-### 图像OCR Demo
-
-![图像解析](./doc/example-3.png)
-
-### 响应流畅度一致
-
-![响应流畅度一致](https://github.com/LLM-Red-Team/kimi-free-api/assets/20235341/48c7ec00-2b03-46c4-95d0-452d3075219b)
 
 ## 接入准备
 
@@ -207,7 +222,13 @@ services:
 
 ## 接口列表
 
-目前支持与openai兼容的 `/v1/chat/completions` 接口，可自行使用与openai或其他兼容的客户端接入接口，或者使用 [dify](https://dify.ai/) 等线上服务接入使用。
+目前支持：
+
+1. 与OpenAI兼容的 `/v1/chat/completions` 接口
+2. 与Google Gemini兼容的 `/v1beta/models/:model:generateContent` 接口  
+3. 与Anthropic Claude兼容的 `/v1/messages` 接口
+
+可自行使用与openai、gemini-cli、claude-code或其他兼容的客户端接入接口，或者使用 [dify](https://dify.ai/) 等线上服务接入使用。
 
 ### 对话补全
 

@@ -23,19 +23,32 @@ const MODEL_NAME = 'kimi';
  * 支持两种格式：
  * 1. Bearer <kimi-auth-jwt-token>  (Connect RPC 使用的 JWT)
  * 2. Bearer <refresh-token>         (传统 API 使用的 refresh token)
+ * 3. x-goog-api-key: <token>        (也支持x-goog-api-key头)
  * 
  * @param ctx Koa Context
  * @returns Token 字符串
  */
 function extractAuthToken(ctx: Context): string {
     const authorization = ctx.request.headers['authorization'];
+    const apiKey = ctx.request.headers['x-goog-api-key'];
 
-    if (!authorization) {
-        throw new APIException(EX.API_REQUEST_FAILED, 'Missing Authorization header');
+    // Debug logging
+    console.log('DEBUG: All headers:', JSON.stringify(ctx.request.headers, null, 2));
+    console.log('DEBUG: Auth header found:', authorization);
+    console.log('DEBUG: API key found:', apiKey);
+
+    // Try Authorization header first, then x-goog-api-key
+    let tokenHeader = authorization;
+    if (!tokenHeader && apiKey) {
+        tokenHeader = `Bearer ${apiKey}`;
+    }
+
+    if (!tokenHeader) {
+        throw new APIException(EX.API_REQUEST_FAILED, 'Missing Authorization header or x-goog-api-key');
     }
 
     // 移除 "Bearer " 前缀
-    const token = authorization.replace(/^Bearer\s+/i, '').trim();
+    const token = tokenHeader.replace(/^Bearer\s+/i, '').trim();
 
     if (!token) {
         throw new APIException(EX.API_REQUEST_FAILED, 'Invalid Authorization header format');
