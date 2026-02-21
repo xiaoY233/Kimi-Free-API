@@ -145,6 +145,77 @@ export class ConnectRPCClient {
     }
 
     /**
+     * 发送聊天消息并实时流式回调每个解析到的帧
+     * 使用 responseType: 'stream' 实现真正的流式传输
+     *
+     * @param message  - 消息内容
+     * @param options  - 聊天选项
+     * @param onMessage - 每解析到一个完整帧时调用
+     */
+    async chatStream(
+        message: string,
+        options: ChatOptions = {},
+        onMessage: (msg: ConnectMessage) => void
+    ): Promise<void> {
+        const {
+            scenario = 'SCENARIO_K2',
+            thinking = false,
+        } = options;
+
+        const requestData: ChatRequest = {
+            scenario,
+            message: {
+                role: 'user',
+                blocks: [{ message_id: '', text: { content: message } }],
+                scenario
+            },
+            options: { thinking }
+        };
+
+        const encodedData = encodeConnectMessage(requestData);
+        logger.info(`Sending Connect RPC stream request: ${message.substring(0, 50)}...`);
+
+        const response = await this.axios.post(
+            '/apiv2/kimi.gateway.chat.v1.ChatService/Chat',
+            encodedData,
+            { responseType: 'stream' }
+        );
+
+        if (response.status !== 200) {
+            throw new Error(`Connect RPC request failed: ${response.status}`);
+        }
+
+        await new Promise<void>((resolve, reject) => {
+            // Rolling buffer — TCP may split frames across multiple data events
+            let buf = Buffer.alloc(0);
+
+            response.data.on('data', (chunk: Buffer) => {
+                buf = Buffer.concat([buf, chunk]);
+
+                // Parse as many complete frames as possible from the buffer
+                while (buf.length >= 5) {
+                    const frameLen = buf.readUInt32BE(1);
+                    if (buf.length < 5 + frameLen) break; // incomplete frame, wait for more data
+
+                    const frameData = buf.slice(0, 5 + frameLen);
+                    buf = buf.slice(5 + frameLen);
+
+                    try {
+                        const jsonStr = frameData.slice(5).toString('utf-8');
+                        const msg: ConnectMessage = JSON.parse(jsonStr);
+                        onMessage(msg);
+                    } catch (e) {
+                        logger.error(`Frame parse error: ${e}`);
+                    }
+                }
+            });
+
+            response.data.once('end', resolve);
+            response.data.once('error', reject);
+        });
+    }
+
+    /**
      * 发送聊天消息并提取文本
      * 
      * @param message - 消息内容
